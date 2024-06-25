@@ -1,0 +1,77 @@
+# codtech-it-solutions---task-1
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Set random seed for reproducibility
+np.random.seed(42)
+
+# Generate synthetic data
+n_samples = 1000
+data = {
+    'age': np.random.randint(18, 65, n_samples),
+    'income': np.random.randint(30000, 120000, n_samples),
+    'gender': np.random.choice(['Male', 'Female'], n_samples),
+    'department': np.random.choice(['HR', 'Sales', 'IT', 'Finance'], n_samples),
+    'rating': np.random.randint(1, 6, n_samples)
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Preview the data
+print("Data Preview:")
+print(df.head())
+
+# Check for missing values
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+# Check for duplicates
+print("\nDuplicates:")
+duplicates = df.duplicated().sum()
+print(f"Number of duplicate rows: {duplicates}")
+
+# Remove duplicates
+df.drop_duplicates(inplace=True)
+
+# Descriptive statistics for numerical variables
+print("\nDescriptive Statistics (Numerical):")
+print(df.describe())
+
+# Descriptive statistics for categorical variables
+print("\nDescriptive Statistics (Categorical):")
+print(df.describe(include=['O']))
+
+# Histograms for numerical variables
+print("\nHistograms for Numerical Variables:")
+df.hist(bins=30, figsize=(15, 10))
+plt.tight_layout()
+plt.show()
+
+# Box plot for income by gender
+print("\nBox Plot for Income by Gender:")
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='gender', y='income', data=df)
+plt.title('Income Distribution by Gender')
+plt.show()
+
+# Scatter plot for age vs. income
+print("\nScatter Plot for Age vs. Income by Gender:")
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x='age', y='income', hue='gender', data=df)
+plt.title('Age vs. Income by Gender')
+plt.show()
+
+# Correlation matrix
+print("\nCorrelation Matrix:")
+corr_matrix = df.corr()
+print(corr_matrix)
+
+# Heatmap of correlations
+print("\nHeatmap of Correlations:")
+plt.figure(figsize=(12, 8))
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
+plt.title('Correlation Matrix')
+plt.show()
